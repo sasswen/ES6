@@ -1,4 +1,7 @@
 /**
+ * Created by dllo on 17/4/25.
+ */
+/**
  * Created by dllo on 17/4/24.
  */
 var express = require('express');
@@ -23,23 +26,19 @@ router.post('/',function (req,res) {
     var username = req.body.username;
     var password = req.body.password;
 
-var user = {
-    username :username,
-    password: password
-};
+    var user = {
+        username :username,
+        password: password
+    };
     console.log(user.username);
-pool.query('select * from userdata',function (error,results) {
-
-    if(error){
-        console.log('查询失败');
-    }else{
-        if(user.username == results[1].username && user.password == results[1].password){
-            res.send('登录成功');
+    pool.query('update userdata SET password = ' + password +'where username ='+username,function (error) {
+        if(error){
+            console.log('更新失败');
         }else{
-            res.send('登录失败');
-        }
-    }
-})
+                res.send('更新失败');
+            }
+
+    })
 
 
 
